@@ -4,6 +4,39 @@
 
 ---
 
+## [1.1.0] - 2026-02-02
+
+### Added
+- **บทความใหม่: Microfrontend Module Federation** (~3000 คำ, 16 sections)
+  - อธิบาย Microfrontend Architecture
+  - Module Federation concepts (Host, Remote, Shared)
+  - Module Federation 2.0 features
+  - Setup กับ Webpack 5 และ Vite
+  - Best Practices และ Anti-patterns
+- **บทความใหม่: React เบื้องต้น สำหรับมือใหม่ 2026** (~2000 คำ)
+  - JSX, Components, Props, State
+  - React Hooks (useState, useEffect)
+  - โปรเจค Todo App
+- **อัพเดทบทความ: Conventional Commits ฉบับสมบูรณ์** (~3000 คำ)
+  - เพิ่ม Commitlint, Husky, Commitizen setup
+  - เพิ่ม Semantic Release overview
+  - เพิ่ม Common Mistakes และ Real-world examples
+- **Components ใหม่**:
+  - `Table.tsx` - แสดงตารางจาก markdown
+  - `Callout.tsx` - แสดง TIP/WARNING/DANGER boxes
+- **parseContent.tsx** - รองรับ Table และ Callout parsing
+
+### Changed
+- ลดจำนวนบทความเหลือ 4 บทความ (จาก 10+)
+- ปรับปรุงโครงสร้างเนื้อหาให้ละเอียดขึ้น
+
+### Deployment
+- **Platform**: Vercel
+- **URL**: https://devtalk-blog.vercel.app
+- **Deployed by**: @DevOps
+
+---
+
 ## [1.0.0] - 2026-02-01
 
 ### Added

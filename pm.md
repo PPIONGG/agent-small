@@ -290,3 +290,32 @@ deep research: [หัวข้อที่ต้องการศึกษา]
 |-------|-------------|----------|
 | Designer | User insights, competitor UI | `specs.md` |
 | Developer | Technical requirements จาก research | `specs.md` |
+
+---
+
+## 📁 File Management
+
+### Content Specs Location
+บันทึก content specs ที่:
+```
+projects/{project-name}/content-specs/{feature-name}.md
+```
+
+**ตัวอย่าง:**
+```
+projects/devtalk-blog/content-specs/
+├── conventional-commits.md
+├── git-series.md
+├── dashboard.md
+└── rebrand-devtalk.md
+```
+
+### Naming Convention
+- ใช้ kebab-case: `feature-name.md`
+- ตั้งชื่อตาม feature/content ที่เขียน
+- ไม่ต้องใส่ prefix "content-spec-"
+
+### Core Files (อยู่ที่ root)
+- `specs.md` - Project specs หลัก, features, user stories
+- `TODO.md` - Task list ทั้งหมด
+- `CHANGELOG.md` - บันทึกการเปลี่ยนแปลง

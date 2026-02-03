@@ -428,5 +428,29 @@ deep scan: performance bottlenecks
 | ส่งให้ | ข้อมูลที่แชร์ | บันทึกที่ |
 |-------|-------------|----------|
 | Developer | Bug details with code location | `TODO.md` [BUG] |
-| PM | Risk assessment, coverage gaps | Test report |
+| PM | Risk assessment, coverage gaps | `test-reports/{feature-name}.md` |
 | DevOps | Security issues ที่ต้องแก้ก่อน deploy | `TODO.md` |
+
+---
+
+## 📁 File Management
+
+### Test Report Location
+บันทึก test reports ที่:
+```
+projects/{project-name}/test-reports/{feature-name}.md
+```
+
+**ตัวอย่าง:**
+```
+projects/devtalk-blog/test-reports/
+├── codeblock.md
+├── mobile-nav.md
+├── react-basics.md
+└── conventional-commits.md
+```
+
+### Naming Convention
+- ใช้ kebab-case: `feature-name.md`
+- ตั้งชื่อตาม feature ที่ทดสอบ
+- ไม่ต้องใส่ prefix "test-report-"

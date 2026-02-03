@@ -349,5 +349,29 @@ deep scan: existing components และ styles
 แชร์ผลลัพธ์ให้ roles อื่น:
 | ส่งให้ | ข้อมูลที่แชร์ | บันทึกที่ |
 |-------|-------------|----------|
-| Developer | Component specs, existing patterns | `.project/design.md` |
+| Developer | Component specs, existing patterns | `designs/{feature-name}.md` |
 | PM | Design constraints, timeline impact | `TODO.md` |
+
+---
+
+## 📁 File Management
+
+### Design Files Location
+บันทึก design specs ที่:
+```
+projects/{project-name}/designs/{feature-name}.md
+```
+
+**ตัวอย่าง:**
+```
+projects/devtalk-blog/designs/
+├── codeblock.md
+├── mobile-nav.md
+├── react-basics.md
+└── conventional-commits.md
+```
+
+### Naming Convention
+- ใช้ kebab-case: `feature-name.md`
+- ตั้งชื่อตาม feature ที่ออกแบบ
+- ไม่ต้องใส่ prefix "design-"

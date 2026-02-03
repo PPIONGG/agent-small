@@ -7,44 +7,13 @@
 
 ## In Progress
 
-### [QA] บทความ React เบื้องต้น สำหรับมือใหม่ 2026
-- **Status**: QA
-- **Owner**: @QA
-- **From**: @Developer
-- **Next**: @DevOps
-- **Priority**: 🔴 High
-- **Specs**: [US-019 ใน specs.md](specs.md)
-- **Design**: [design-react-basics.md](design-react-basics.md)
-- **URL**: `/posts/react-basics-tutorial`
-- **Handoff Checklist**:
-  - [x] บทความเขียนครบตาม outline (11 sections)
-  - [x] Code examples ครบ (Vite, JSX, Components, Props, State, useEffect, Events)
-  - [x] โปรเจค Todo App ครบถ้วน
-  - [x] Build passed ไม่มี errors
-  - [x] Static page generated สำเร็จ
-- **Test Instructions**:
-  - ทดสอบ responsive (mobile, tablet, desktop)
-  - ทดสอบ code blocks แสดงผลถูกต้อง
-  - ทดสอบ copy code button
-  - ตรวจสอบเนื้อหาครบถ้วนตาม specs
+> ไม่มีงานค้าง
 
 ---
 
 ## Ready to Deploy
 
-### Content Update - ลดบทความ
-**Owner**: @DevOps
-
-| บทความที่เหลือ | Status |
-|---------------|--------|
-| Conventional Commits | ✅ Ready |
-| Git สำหรับมือใหม่ | ✅ Ready |
-
-**ลบแล้ว:**
-- Next.js 14 และ App Router
-- Tailwind CSS Tips & Tricks
-- Ant Design (Antd)
-- Git Series อื่นๆ (9 บทความ)
+> ไม่มีงานรอ deploy
 
 ---
 
@@ -67,6 +36,14 @@
 
 ## Done
 
+### v1.1.0 Release - 2026-02-02
+- [x] **Deploy บทความ Microfrontend Module Federation** (@DevOps) - 2026-02-02
+- [x] **Deploy บทความ Conventional Commits ฉบับสมบูรณ์** (@DevOps) - 2026-02-02
+- [x] **Deploy บทความ React เบื้องต้น** (@DevOps) - 2026-02-02
+- [x] **Deploy Table.tsx และ Callout.tsx components** (@DevOps) - 2026-02-02
+- [x] Content Update - ลดบทความเหลือ 4 บทความ (@DevOps) - 2026-02-02
+- [x] อัพเดท CHANGELOG.md (@DevOps) - 2026-02-02
+
 ### v1.0.0 Release - 2026-02-01
 - [x] **Deploy to Vercel** (@DevOps) - https://devtalk-blog.vercel.app
 - [x] Rebrand: MyBlog → DevTalk + Dashboard (@DevOps) - 2026-02-01
@@ -78,6 +55,9 @@
 - [x] Next.js Blog Base (@DevOps) - 2026-02-01
 
 ### QA Testing
+- [x] QA ทดสอบบทความ Microfrontend Module Federation (@QA) - 2026-02-02
+- [x] QA ทดสอบบทความ Conventional Commits ฉบับสมบูรณ์ (@QA) - 2026-02-02
+- [x] QA ทดสอบบทความ React เบื้องต้น (@QA) - 2026-02-02
 - [x] QA ทดสอบ Git Series (10 บทความ) (@QA) - 2026-02-01
 - [x] QA ทดสอบ Rebrand + Dashboard (@QA) - 2026-02-01
 - [x] QA ทดสอบ Code Block Styling (@QA) - 2026-02-01
@@ -87,6 +67,10 @@
 - [x] QA ทดสอบบทความ Conventional Commits (@QA) - 2026-02-01
 
 ### Development
+- [x] Developer เขียนบทความ Microfrontend Module Federation (@Developer) - 2026-02-02
+- [x] Developer สร้าง Table, Callout components (@Developer) - 2026-02-02
+- [x] Developer อัพเดท parseContent.tsx (@Developer) - 2026-02-02
+- [x] Developer อัพเดทบทความ Conventional Commits ฉบับสมบูรณ์ (@Developer) - 2026-02-02
 - [x] Developer เขียนบทความ React เบื้องต้น (@Developer) - 2026-02-02
 - [x] Developer เขียน Git Series (10 บทความ) (@Developer) - 2026-02-01
 - [x] Developer implement Rebrand + Dashboard (@Developer) - 2026-02-01
@@ -100,6 +84,8 @@
 - [x] สร้าง Layout, Home, Post Detail, About (@Developer) - 2026-02-01
 
 ### Design
+- [x] Designer ออกแบบ บทความ Microfrontend Module Federation (@Designer) - 2026-02-02
+- [x] Designer ออกแบบ บทความ Conventional Commits ฉบับสมบูรณ์ (@Designer) - 2026-02-02
 - [x] Designer ออกแบบ บทความ React เบื้องต้น (@Designer) - 2026-02-02
 - [x] Designer ออกแบบ Rebrand + Dashboard (@Designer) - 2026-02-01
 - [x] Designer ออกแบบ Code Block Styling (@Designer) - 2026-02-01
@@ -108,6 +94,7 @@
 - [x] ออกแบบ UI/UX (@Designer) - 2026-02-01
 
 ### PM
+- [x] PM สร้าง specs บทความ Microfrontend Module Federation (@PM) - 2026-02-02
 - [x] PM สร้าง specs บทความ React เบื้องต้น (@PM) - 2026-02-02
 - [x] PM ลดบทความเหลือ Git สำหรับมือใหม่ เท่านั้น (@PM) - 2026-02-01
 - [x] PM สร้าง specs Git Series (10 บทความ) (@PM) - 2026-02-01

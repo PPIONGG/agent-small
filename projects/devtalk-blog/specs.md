@@ -569,4 +569,519 @@ const [count, setCount] = useState(0)
 
 ---
 
+## Phase 6: Content - Conventional Commits ฉบับสมบูรณ์
+
+### US-020: อัพเดทบทความ Conventional Commits ให้ครบถ้วน
+**As a** นักพัฒนาที่ต้องการเรียนรู้ Conventional Commits
+**I want to** อ่านคู่มือ Conventional Commits ที่ละเอียดและครบถ้วน
+**So that** ฉันสามารถใช้งานได้จริงในทีมและโปรเจคต่างๆ
+
+#### ปัญหาปัจจุบัน
+- เนื้อหาสั้นเกินไป (8 sections พื้นฐาน)
+- ตัวอย่างน้อย (4 ตัวอย่างสั้นๆ)
+- ขาดรายละเอียดการ setup tools
+- ไม่มี real-world examples
+- ขาดเรื่อง Common Mistakes
+
+#### Acceptance Criteria
+- [ ] อธิบายแต่ละ Type พร้อมตัวอย่างละเอียด (feat, fix, docs, style, refactor, perf, test, build, ci, chore)
+- [ ] อธิบายการใช้ Scope อย่างถูกต้อง + ตัวอย่าง
+- [ ] อธิบาย Body และ Footer พร้อม use cases
+- [ ] อธิบาย Breaking Changes ละเอียด (เมื่อไหร่, วิธีเขียน)
+- [ ] Commitlint Configuration ละเอียด (rules, extends, custom rules)
+- [ ] Husky Setup step-by-step
+- [ ] Commitizen (Interactive Commit) setup และใช้งาน
+- [ ] Semantic Release overview + basic setup
+- [ ] Common Mistakes และวิธีแก้ไข
+- [ ] IDE Extensions (VS Code, JetBrains)
+- [ ] วิธีแก้ไข Commit ที่ผิด (amend, rebase)
+- [ ] Real-world examples จาก popular projects
+
+#### Priority: 🔴 High
+
+#### เนื้อหาที่ต้องมี (Outline)
+
+**1. Intro (ปรับปรุง)**
+- Conventional Commits คืออะไร (ขยายเพิ่ม)
+- ทำไมถึงสำคัญ (เพิ่มตัวอย่าง)
+- ใครใช้บ้าง (Angular, Vue, React, Vite)
+
+**2. รูปแบบ Commit Message (ละเอียด)**
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+- อธิบายแต่ละส่วนละเอียด
+- ความยาวที่แนะนำ (50/72 rule)
+
+**3. Types ทั้งหมดพร้อมตัวอย่างละเอียด (ใหม่)**
+| Type | ใช้เมื่อ | ตัวอย่าง |
+|------|---------|---------|
+| feat | เพิ่ม feature | 3+ ตัวอย่าง |
+| fix | แก้ bug | 3+ ตัวอย่าง |
+| docs | แก้เอกสาร | 2+ ตัวอย่าง |
+| style | formatting | 2+ ตัวอย่าง |
+| refactor | ปรับโครงสร้าง | 3+ ตัวอย่าง |
+| perf | performance | 2+ ตัวอย่าง |
+| test | tests | 2+ ตัวอย่าง |
+| build | build system | 2+ ตัวอย่าง |
+| ci | CI/CD | 2+ ตัวอย่าง |
+| chore | maintenance | 2+ ตัวอย่าง |
+
+**4. Scope - ใช้ยังไงให้ถูก (ใหม่)**
+- Scope คืออะไร
+- ตัวอย่าง scope ที่ดี vs ไม่ดี
+- Common scopes: auth, api, ui, db, config, deps
+- เมื่อไหร่ไม่ต้องใช้ scope
+
+**5. Body และ Footer (ใหม่)**
+- เมื่อไหร่ต้องใช้ body
+- รูปแบบ body ที่ดี
+- Footer types: BREAKING CHANGE, Closes, Refs, Co-authored-by
+- ตัวอย่าง commit แบบเต็ม
+
+**6. Breaking Changes (ขยาย)**
+- เมื่อไหร่ถือว่า breaking
+- วิธีเขียน breaking change (! และ BREAKING CHANGE footer)
+- ตัวอย่าง real breaking changes
+
+**7. Commitlint Setup (ขยายมาก)**
+```bash
+npm install -D @commitlint/cli @commitlint/config-conventional
+```
+- Configuration file ละเอียด
+- Custom rules
+- Common config options
+
+**8. Husky Setup (ใหม่)**
+- ติดตั้ง Husky
+- Setup commit-msg hook
+- Setup pre-commit hook
+- Troubleshooting common issues
+
+**9. Commitizen - Interactive Commit (ใหม่)**
+```bash
+npm install -D commitizen cz-conventional-changelog
+```
+- Setup และใช้งาน
+- Custom adapter
+- ทำไมควรใช้ (enforce format)
+
+**10. Semantic Release Overview (ใหม่)**
+- Semantic Release คืออะไร
+- ทำงานยังไงกับ Conventional Commits
+- Basic setup example
+- ตัวอย่าง CHANGELOG ที่ generate อัตโนมัติ
+
+**11. Common Mistakes (ใหม่)**
+| ผิด | ถูก | เหตุผล |
+|-----|-----|--------|
+| `update code` | `feat(auth): add login` | ไม่มี type |
+| `feat: Add new Feature` | `feat: add new feature` | ตัวใหญ่ |
+| `fix: fixed bug` | `fix: resolve null error` | กริยาไม่ถูก |
+| และอื่นๆ... | | |
+
+**12. IDE Extensions (ใหม่)**
+- VS Code: Conventional Commits extension
+- JetBrains: Git Commit Template
+- วิธีใช้งานและ config
+
+**13. แก้ไข Commit ที่ผิด (ใหม่)**
+- git commit --amend
+- Interactive rebase
+- Force push (ข้อควรระวัง)
+
+**14. Real-world Examples (ใหม่)**
+- ตัวอย่างจาก Angular
+- ตัวอย่างจาก Vue.js
+- ตัวอย่างจาก popular GitHub repos
+
+**15. สรุปและ Cheatsheet (ปรับปรุง)**
+- Quick reference table
+- Links ที่เป็นประโยชน์
+
+#### Technical Notes
+- บทความควรยาว ~2500-3000 คำ (จากเดิม ~500 คำ)
+- แบ่ง sections ชัดเจน
+- มี code blocks copy ได้
+- มีตารางสรุป
+
+#### References
+- [conventionalcommits.org](https://www.conventionalcommits.org/)
+- [Commitlint](https://commitlint.js.org/)
+- [Semantic Release](https://semantic-release.gitbook.io/)
+- [Commitizen](https://commitizen-tools.github.io/commitizen/)
+
+---
+
+## Phase 7: Content - Microfrontend with Module Federation
+
+### US-021: บทความ Microfrontend แบบ Module Federation
+**As a** Frontend Developer ที่ต้องการพัฒนา Large-scale Application
+**I want to** อ่านคู่มือ Microfrontend with Module Federation ที่ครบถ้วน
+**So that** ฉันสามารถออกแบบและพัฒนา Microfrontend architecture ได้จริง
+
+#### Target Audience
+- Frontend Developer ที่มีประสบการณ์ 1+ ปี
+- ทีมที่กำลังจะ scale application ให้ใหญ่ขึ้น
+- Developer ที่ต้องการแยก codebase ออกเป็น independent modules
+
+#### Acceptance Criteria
+- [ ] อธิบาย Microfrontend คืออะไร + ทำไมต้องใช้
+- [ ] เปรียบเทียบ Microfrontend approaches (iframes, Web Components, Module Federation)
+- [ ] อธิบาย Module Federation concepts (Host, Remote, Shared)
+- [ ] อธิบาย Module Federation 2.0 features ใหม่
+- [ ] Step-by-step setup Module Federation กับ Webpack 5
+- [ ] Step-by-step setup Module Federation กับ Vite (ใช้ @module-federation/vite)
+- [ ] อธิบายการ Share dependencies อย่างถูกต้อง (singleton, version strategy)
+- [ ] อธิบาย Communication ระหว่าง Microfrontends (Event Bus, Shared State)
+- [ ] อธิบาย Routing strategies ใน Microfrontend
+- [ ] Common Problems และ Solutions (version mismatch, CSS conflicts, state sync)
+- [ ] Best Practices และ Anti-patterns
+- [ ] Real-world architecture example
+- [ ] Code ตัวอย่างที่ทำงานได้จริง
+- [ ] Responsive และ SEO ครบ
+
+#### Priority: 🔴 High
+
+#### เนื้อหาที่ต้องมี (Outline)
+
+**1. Microfrontend คืออะไร? (Intro)**
+- Definition: แบ่ง frontend ออกเป็น independent deployable units
+- ทำไมต้องใช้ Microfrontend
+  - ทีมใหญ่ต้องการ autonomy
+  - แยก deploy ได้อิสระ
+  - Tech stack flexibility
+  - Scale development team ง่ายขึ้น
+- เมื่อไหร่ **ไม่ควร** ใช้ (complexity vs benefit)
+
+**2. เปรียบเทียบ Microfrontend Approaches**
+| Approach | Pros | Cons | เมื่อไหร่ใช้ |
+|----------|------|------|------------|
+| iframes | Isolation สูง | Performance, UX | Legacy integration |
+| Web Components | Framework-agnostic | Limited styling | Simple widgets |
+| Module Federation | Runtime sharing, Performance | Learning curve | Modern apps |
+| Import Maps | No bundler lock-in | Limited features | Simple cases |
+
+**3. Module Federation คืออะไร?**
+- Webpack 5 feature
+- Core concepts:
+  - **Host (Container)**: App หลักที่ load remote modules
+  - **Remote**: App ที่ expose modules ให้ Host ใช้
+  - **Shared**: Dependencies ที่ share ระหว่าง apps
+- ข้อดี: Runtime loading, No rebuild required, Share code
+- Diagram architecture
+
+**4. Module Federation 2.0 - มีอะไรใหม่? (NEW)**
+- Runtime Plugin System
+- Standalone Runtime SDK (ไม่ต้อง build tool)
+- Dynamic Type Hints (TypeScript support)
+- Build tool support: Webpack, Rspack, Vite
+- Manifest-based loading
+- Official resources: module-federation.io
+
+**5. Setup Module Federation กับ Webpack 5**
+```javascript
+// Host webpack.config.js
+new ModuleFederationPlugin({
+  name: 'host',
+  remotes: {
+    remoteApp: 'remoteApp@http://localhost:3001/remoteEntry.js',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+
+// Remote webpack.config.js
+new ModuleFederationPlugin({
+  name: 'remoteApp',
+  filename: 'remoteEntry.js',
+  exposes: {
+    './Button': './src/components/Button',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+- Project structure
+- Step-by-step configuration
+- Loading remote components
+- Error boundaries
+
+**6. Setup Module Federation กับ Vite (2026)**
+```javascript
+// vite.config.js
+import { federation } from '@module-federation/vite';
+
+export default {
+  plugins: [
+    federation({
+      name: 'host',
+      remotes: {
+        remoteApp: 'http://localhost:3001/assets/remoteEntry.js',
+      },
+      shared: ['react', 'react-dom'],
+    }),
+  ],
+};
+```
+- @module-federation/vite plugin
+- Configuration differences from Webpack
+- Rspack alternative
+
+**7. Shared Dependencies Strategy**
+- **singleton: true** - มีแค่ 1 instance (React, React DOM)
+- **strictVersion** - บังคับ version ตรงกัน
+- **requiredVersion** - กำหนด minimum version
+- Version mismatch handling
+```javascript
+shared: {
+  react: {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '^18.2.0',
+  },
+}
+```
+- เมื่อไหร่ใช้แต่ละ option
+- Semantic versioning ใน shared deps
+
+**8. Communication ระหว่าง Microfrontends**
+
+| วิธี | Pros | Cons | Use Case |
+|-----|------|------|----------|
+| Props | Simple, Type-safe | Tight coupling | Parent-child |
+| Custom Events | Decoupled | No type safety | Cross-app notifications |
+| Event Bus | Organized | Boilerplate | Complex communication |
+| Shared State (Redux) | Powerful | Complexity | State sync critical |
+| URL/Query params | Universal | Limited data | Navigation state |
+
+```javascript
+// Custom Events example
+// Remote: dispatch event
+window.dispatchEvent(new CustomEvent('cart:add', {
+  detail: { productId: 123 }
+}));
+
+// Host: listen event
+window.addEventListener('cart:add', (e) => {
+  console.log(e.detail.productId);
+});
+```
+
+**9. Routing Strategies**
+- Host-based routing (Host controls all routes)
+- Nested routing (Each microfrontend has own router)
+- Shell routing pattern
+- URL synchronization between apps
+- Example with React Router
+
+**10. Common Problems และ Solutions**
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| Duplicate React | Singleton not set | `singleton: true` |
+| CSS Conflicts | Global styles | CSS Modules, CSS-in-JS |
+| Version mismatch | Different versions | `strictVersion` หรือ version sync |
+| Slow initial load | Too many remotes | Prefetch, lazy loading |
+| Type safety lost | No shared types | shared npm package for types |
+| Routing conflicts | Overlapping routes | Route prefix convention |
+
+**11. Best Practices**
+✅ Do:
+- กำหนด clear contracts ระหว่าง Host และ Remote
+- ใช้ Error Boundaries ครอบ remote components
+- Preload remote modules ที่ใช้บ่อย
+- Share types ผ่าน npm package
+- ใช้ singleton สำหรับ framework dependencies
+- ตั้ง route prefix ให้แต่ละ microfrontend
+
+❌ Don't:
+- อย่า share state เยอะเกินไป (tight coupling)
+- อย่าใช้ global CSS โดยไม่มี namespace
+- อย่า hard-code remote URLs
+- อย่าละเลย error handling
+- อย่า expose internal components
+
+**12. Anti-patterns ที่ต้องเลี่ยง**
+- Shared everything - ทำให้ coupling สูง
+- No error boundaries - crash 1 ที่ ล่มทั้งหมด
+- Tight version coupling - deploy ไม่อิสระ
+- CSS global pollution - style conflicts
+- Circular dependencies - ระหว่าง microfrontends
+
+**13. Real-world Architecture Example**
+```
+┌─────────────────────────────────────────┐
+│           Shell/Host App                │
+│   (Routing, Auth, Layout, Header)       │
+├─────────┬─────────┬─────────┬──────────┤
+│ Product │  Cart   │ Checkout│  Admin   │
+│   MFE   │   MFE   │   MFE   │   MFE    │
+│(Team A) │(Team B) │(Team C) │ (Team D) │
+└─────────┴─────────┴─────────┴──────────┘
+         ↓           ↓
+    ┌─────────────────────┐
+    │   Shared Libraries  │
+    │ (Design System, Utils)│
+    └─────────────────────┘
+```
+- E-commerce example
+- Team ownership
+- Shared design system
+
+**14. Deployment Strategies**
+- Independent deployment per MFE
+- Versioned remote URLs
+- Dynamic remote loading
+- CDN considerations
+- Rollback strategy
+
+**15. Testing Microfrontends**
+- Unit tests (per MFE)
+- Integration tests (Host + Remotes)
+- E2E tests (full application)
+- Contract testing
+
+**16. สรุป Cheatsheet**
+- Quick reference configuration
+- Decision flowchart: เมื่อไหร่ใช้ Module Federation
+- Essential links และ resources
+
+#### Technical Notes
+- บทความควรยาว ~3000-3500 คำ
+- ใช้ Module Federation 2.0 syntax
+- Code examples ต้อง test ว่าทำงานได้จริง
+
+#### 📊 Diagrams Required (สำคัญมาก - ช่วยให้เข้าใจง่าย)
+
+**Diagram 1: Microfrontend vs Monolith Comparison**
+```
+┌─ Monolith ─────────────────┐    ┌─ Microfrontend ────────────┐
+│                            │    │   ┌───┐ ┌───┐ ┌───┐ ┌───┐ │
+│    Single Large App        │ vs │   │MFE│ │MFE│ │MFE│ │MFE│ │
+│    (One Team Deploy)       │    │   │ A │ │ B │ │ C │ │ D │ │
+│                            │    │   └───┘ └───┘ └───┘ └───┘ │
+└────────────────────────────┘    │   (Independent Deploy)     │
+                                  └────────────────────────────┘
+```
+
+**Diagram 2: Module Federation Architecture**
+```
+┌──────────────────────────────────────────────────────┐
+│                    HOST APP                          │
+│              (Shell/Container)                       │
+│  ┌─────────────────────────────────────────────────┐│
+│  │ import RemoteButton from 'remoteApp/Button'     ││
+│  └─────────────────────────────────────────────────┘│
+│                        │                             │
+│              Runtime Load at ▼                       │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────┐  │
+│   │  REMOTE A    │  │  REMOTE B    │  │ REMOTE C │  │
+│   │ (Port 3001)  │  │ (Port 3002)  │  │(Port 3003)│  │
+│   │              │  │              │  │          │  │
+│   │ exposes:     │  │ exposes:     │  │ exposes: │  │
+│   │ - Button     │  │ - Header     │  │ - Cart   │  │
+│   │ - Card       │  │ - Footer     │  │ - Checkout│ │
+│   └──────────────┘  └──────────────┘  └──────────┘  │
+│                                                      │
+│   ┌─────────────────────────────────────────────────┐│
+│   │              SHARED DEPENDENCIES                ││
+│   │         React, React-DOM (singleton)            ││
+│   └─────────────────────────────────────────────────┘│
+└──────────────────────────────────────────────────────┘
+```
+
+**Diagram 3: Data Flow / Communication**
+```
+┌─────────────┐    Custom Event    ┌─────────────┐
+│   MFE A     │ ───────────────▶   │   MFE B     │
+│  (Product)  │  'cart:add-item'   │   (Cart)    │
+└─────────────┘                    └─────────────┘
+       │                                  │
+       │         Props                    │
+       └──────────▶ Host ◀────────────────┘
+                     │
+              Shared State
+              (if needed)
+```
+
+**Diagram 4: Deployment Architecture**
+```
+┌─────────────────────────────────────────────────────────┐
+│                        CDN                              │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  host.example.com    mfe-a.example.com  mfe-b.example   │
+│        │                    │                 │         │
+│        ▼                    ▼                 ▼         │
+│   ┌─────────┐         ┌─────────┐       ┌─────────┐    │
+│   │  Host   │         │ Remote  │       │ Remote  │    │
+│   │  App    │────────▶│   A     │       │   B     │    │
+│   │         │ runtime │         │       │         │    │
+│   │         │  load   │         │       │         │    │
+│   └─────────┘         └─────────┘       └─────────┘    │
+│                                                         │
+│   Deploy: Team Core   Deploy: Team A   Deploy: Team B  │
+│   (independent)        (independent)    (independent)   │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Diagram 5: Decision Flowchart - ควรใช้ Module Federation ไหม?**
+```
+                    ┌───────────────────┐
+                    │ App ของคุณเป็น    │
+                    │ Large-scale ไหม?  │
+                    └─────────┬─────────┘
+                              │
+              ┌───────────────┴───────────────┐
+              ▼                               ▼
+         ┌────────┐                     ┌────────┐
+         │  Yes   │                     │   No   │
+         └────┬───┘                     └────┬───┘
+              │                              │
+              ▼                              ▼
+    ┌─────────────────┐            ┌─────────────────┐
+    │ มีหลายทีม       │            │ ใช้ Monolith    │
+    │ ต้องการ deploy  │            │ ก็เพียงพอ        │
+    │ อิสระจากกันไหม? │            └─────────────────┘
+    └────────┬────────┘
+             │
+    ┌────────┴────────┐
+    ▼                 ▼
+┌────────┐      ┌────────┐
+│  Yes   │      │   No   │
+└────┬───┘      └────┬───┘
+     │               │
+     ▼               ▼
+┌──────────────┐ ┌──────────────┐
+│ ✅ ใช้       │ │ ❓ พิจารณา   │
+│ Module       │ │ ข้อดี/ข้อเสีย│
+│ Federation   │ │ ก่อนตัดสินใจ │
+└──────────────┘ └──────────────┘
+```
+
+> **Note to Designer**: Diagrams เหล่านี้เป็น ASCII art สำหรับ reference
+> Designer สามารถทำเป็น SVG หรือ Image ที่สวยงามกว่านี้ได้
+
+#### Research Findings
+
+**Sources:**
+- [Webpack Module Federation](https://webpack.js.org/concepts/module-federation/)
+- [Module Federation 2.0](https://module-federation.io/guide/start/)
+- [LogRocket Tutorial](https://blog.logrocket.com/building-micro-frontends-webpacks-module-federation/)
+- [State Management in MFE](https://www.burhanuday.com/blog/2023/05/state-management-in-micro-frontends)
+- [Rspack Module Federation](https://rspack.rs/guide/features/module-federation)
+
+---
+
 *Last updated: 2026-02-02*
