@@ -1,0 +1,27 @@
+{
+  "name": "QReact",
+  "description": "Micro-Frontend ERP System (React + TypeScript + Vite + Module Federation)",
+  "path": "c:\\Users\\Kongsit\\Desktop\\QReact",
+  "tech": "react",
+  "commands": {
+    "dev": "npm run dev",
+    "dev:server": "npm run dev:server",
+    "build": "npm run build",
+    "portal": "npm run portal"
+  },
+  "scan": {
+    "include": ["portal/src/", "Q-ERPc/", "general/", "business-data-monitoring/src/", "shared/src/", "scripts/"],
+    "exclude": ["node_modules/", "dist/", ".git/"]
+  },
+  "modules": {
+    "portal": "portal/src/",
+    "purchase-order": "Q-ERPc/purchase/purchase-order/src/",
+    "sales-order": "Q-ERPc/sales/sales-order/src/",
+    "sales-visitor": "Q-ERPc/sales/sales-visitor/src/",
+    "sales-analytics": "Q-ERPc/sales/sales-analytics/src/",
+    "dashboard": "general/dashboard/src/",
+    "business-data": "business-data-monitoring/src/",
+    "shared": "shared/src/",
+    "scripts": "scripts/"
+  }
+}

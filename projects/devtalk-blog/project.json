@@ -1,0 +1,16 @@
+{
+  "name": "devtalk-blog",
+  "description": "Next.js blog for writing and displaying tech articles",
+  "path": "c:\\Users\\tamma\\OneDrive\\Desktop\\devtalk-blog",
+  "tech": "nextjs",
+  "commands": {
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "test": "npm run check"
+  },
+  "scan": {
+    "include": ["src/", "app/", "components/", "public/"],
+    "exclude": ["node_modules/", ".next/", "dist/"]
+  },
+  "modules": {}
+}

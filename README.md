@@ -17,10 +17,13 @@ WORKSPACE/
 │   │
 │   └── projects/              ← ข้อมูลของแต่ละ project
 │       ├── devtalk-blog/
+│       │   ├── project.json   ← ⭐ ชี้ไปยัง codebase จริง
 │       │   ├── specs.md
 │       │   ├── TODO.md
-│       │   └── CHANGELOG.md
+│       │   ├── CHANGELOG.md
+│       │   └── PROJECT-SUMMARY.md  ← สร้างโดย Scout
 │       └── another-project/
+│           ├── project.json
 │           └── ...
 │
 ├── devtalk-blog/              ← Project จริง (code)
@@ -56,6 +59,7 @@ PM สร้าง specs → Designer ออกแบบ → Developer code → 
 | Designer | `designer.md` | ออกแบบ UI/UX, Design System |
 | QA Engineer | `qa.md` | ทดสอบ Functional, Performance, Security |
 | DevOps Engineer | `devops.md` | CI/CD, Deployment, Infrastructure |
+| Scout | `scout.md` | Scan codebase, สร้าง PROJECT-SUMMARY.md |
 
 ---
 
@@ -99,11 +103,14 @@ PM สร้าง specs → Designer ออกแบบ → Developer code → 
 ```
 projects/
 ├── devtalk-blog/           # Project แรก
+│   ├── project.json        # ⭐ ชี้ไปยัง codebase จริง (path, tech, commands)
+│   ├── PROJECT-SUMMARY.md  # สร้างโดย Scout (โครงสร้าง codebase)
 │   ├── specs.md            # Requirements, features, user stories
 │   ├── TODO.md             # Task tracking (Hub กลาง)
 │   └── CHANGELOG.md        # Release notes
 │
 └── another-project/        # Project อื่น
+    ├── project.json
     ├── specs.md
     ├── TODO.md
     └── CHANGELOG.md
@@ -113,6 +120,27 @@ projects/
 - ✅ แยก project data ออกจาก code
 - ✅ รองรับหลาย projects พร้อมกัน
 - ✅ ไม่ยุ่งกับ repo ของ project จริง
+- ✅ `project.json` เชื่อม agent กับ codebase จริง → scan/อ่าน code ได้
+
+### project.json ทำหน้าที่เป็น
+
+| ช่วยเรื่อง | ยังไง |
+|-----------|-------|
+| รู้ว่า code อยู่ไหน | `path` ชี้ไปยัง codebase จริง |
+| รู้ว่าใช้ tech อะไร | `tech` บอก framework (nextjs, react, dotnet, etc.) |
+| รู้ว่ารัน command อะไร | `commands` บอก dev, build, test |
+| Scout scan ได้ตรงจุด | `scan.include/exclude` กำหนดขอบเขต |
+
+```json
+{
+  "name": "devtalk-blog",
+  "description": "Next.js blog for tech articles",
+  "path": "c:\\Users\\tamma\\OneDrive\\Desktop\\devtalk-blog",
+  "tech": "nextjs",
+  "commands": { "dev": "npm run dev", "build": "npm run build", "test": "npm run check" },
+  "scan": { "include": ["src/", "app/"], "exclude": ["node_modules/", ".next/"] }
+}
+```
 
 ### TODO.md ทำหน้าที่เป็น
 
