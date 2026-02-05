@@ -87,9 +87,13 @@ Legacy controllers: Dashboard, CustomerCategory, FGStock, Pallet, Serie*, TeamDe
 | ReturnMessage | `ApiResponse<unknown>` | `response.code === 0` |
 | ReturnAPI (legacy) | `ApiResponseAlt<T>` | `response.status === true` |
 
-## Potential Mismatch
+## Fixed Mismatch (2026-02-05)
 
-Approved endpoints (#14, #15) — backend ส่ง `ReturnMessageData` (code/msg/result) แต่ frontend PO+SO module ใช้ `ApiResponseAlt` (status/message/data) → ควรตรวจสอบเพิ่มเติม
+Approved endpoints (#14, #15) — backend ส่ง `ReturnMessageData` (code/msg/result) แต่ frontend PO+SO module ใช้ `ApiResponseAlt` (status/message/data)
+
+**ยืนยันจาก actual API response:** backend ส่ง `{ code: 0, msg, errorCode, result }` (Pattern 1)
+
+**แก้ไขแล้ว:** เปลี่ยน frontend ทั้ง PO + SO ให้ใช้ `ApiResponse<T>` + เช็ค `response.code === 0` + ใช้ `response.result`/`response.msg`
 
 ## GlobalExceptionMiddleware
 

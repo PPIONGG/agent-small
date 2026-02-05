@@ -1,0 +1,33 @@
+{
+  "name": "so",
+  "description": "Sales Order Module - Micro-Frontend remote module for Q-ERP (React + TypeScript + Vite + Module Federation)",
+  "path": "c:\\Users\\Kongsit\\Desktop\\QReact\\Q-ERPc\\sales\\sales-order",
+  "tech": "react",
+  "commands": {
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "build:cloud": "npm run build:cloud"
+  },
+  "scan": {
+    "include": ["src/"],
+    "exclude": ["node_modules/", "dist/"]
+  },
+  "modules": {
+    "components": "src/components/",
+    "hooks": "src/hooks/",
+    "services": "src/services/",
+    "types": "src/types/",
+    "pages": "src/pages/",
+    "stores": "src/stores/",
+    "contexts": "src/contexts/",
+    "utils": "src/utils/",
+    "constants": "src/constants/",
+    "styles": "src/styles/"
+  },
+  "parent": {
+    "name": "QReact",
+    "path": "c:\\Users\\Kongsit\\Desktop\\QReact",
+    "port": 5006,
+    "remoteName": "salesOrder"
+  }
+}

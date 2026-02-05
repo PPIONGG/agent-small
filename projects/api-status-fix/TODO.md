@@ -88,6 +88,14 @@
 
 ---
 
+- [x] Fix: Approved API Type Mismatch — PO + SO ใช้ `ApiResponseAlt` แต่ backend ส่ง Pattern 1
+  - ยืนยันจาก actual API response: `{ code: 0, msg, errorCode, result }` (Pattern 1)
+  - PO: `types/approvedConfig.ts`, `types/approval.ts`, `hooks/useApprovedConfig.ts`, `hooks/usePOListData.ts`
+  - SO: `types/approvedConfig.ts`, `types/approval.ts`, `hooks/useApprovedConfig.ts`, `hooks/useSOListData.ts`
+  - เปลี่ยน `ApiResponseAlt` → `ApiResponse`, `response.status` → `response.code === 0`, `response.data` → `response.result`, `response.message` → `response.msg`
+
+---
+
 ## In Progress
 
 (ยังไม่มี)

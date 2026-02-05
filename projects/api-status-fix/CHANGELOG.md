@@ -4,6 +4,30 @@
 
 ### 2026-02-05
 
+#### Approved API Type Mismatch Fix — PO + SO
+
+**ปัญหาเดิม:** Approved endpoints (#14 Config, #15 Approve) backend ส่ง `ReturnMessageData` (code/msg/result) แต่ frontend ใช้ `ApiResponseAlt` (status/message/data) → approval config ไม่ถูก load, approval action เช็ค success ผิด
+
+**ยืนยันจาก actual API response:**
+- `GET /api/Approved/Config/SO` → `{ code: 0, msg: null, errorCode: null, result: { levels: [...] } }`
+- ตรงกับ Pattern 1 (`ReturnMessageData`) ไม่ใช่ `ReturnAPI` (legacy)
+
+**ไฟล์ที่แก้ไข (8 ไฟล์):**
+
+Purchase Order:
+1. **`Q-ERPc/purchase/purchase-order/src/types/approvedConfig.ts`** — `ApiResponseAlt` → `ApiResponse`
+2. **`Q-ERPc/purchase/purchase-order/src/types/approval.ts`** — `ApiResponseAlt` → `ApiResponse`
+3. **`Q-ERPc/purchase/purchase-order/src/hooks/useApprovedConfig.ts`** — `response.status && response.data` → `response.code === 0 && response.result`
+4. **`Q-ERPc/purchase/purchase-order/src/hooks/usePOListData.ts`** — `response.status` → `response.code === 0`, `response.message` → `response.msg`
+
+Sales Order:
+5. **`Q-ERPc/sales/sales-order/src/types/approvedConfig.ts`** — `ApiResponseAlt` → `ApiResponse`
+6. **`Q-ERPc/sales/sales-order/src/types/approval.ts`** — `ApiResponseAlt` → `ApiResponse`
+7. **`Q-ERPc/sales/sales-order/src/hooks/useApprovedConfig.ts`** — `response.status && response.data` → `response.code === 0 && response.result`
+8. **`Q-ERPc/sales/sales-order/src/hooks/useSOListData.ts`** — `response.status` → `response.code === 0`, `response.message` → `response.msg`
+
+---
+
 #### Portal Frontend — Error Handling Fix
 
 **ปัญหาเดิม:** ทุก API error (400, 401, 403, 500, network) ถูกแสดงเป็น "เกิดข้อผิดพลาดในการเชื่อมต่อ" หมด
