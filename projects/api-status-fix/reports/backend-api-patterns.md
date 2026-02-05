@@ -107,4 +107,12 @@ HTTP Status mapping:
 ## ErrorCodes (c:\GitHub\QERPC-API\QercAPI\Utility\ErrorCodes.cs)
 
 Categories: AUTH_*, VALIDATION_*, DATA_*, BUSINESS_*, SERVER_*, DATABASE_*, EXTERNAL_*
-Frontend สามารถใช้ errorCode เพื่อ handle business logic ได้ (แต่ยังไม่ค่อยใช้)
+
+### AUTH ErrorCodes ที่ Frontend ใช้
+
+| errorCode | HTTP Status | Meaning | Frontend Handling |
+|-----------|-------------|---------|-------------------|
+| `AUTH_TOKEN_INVALID` | 401 | Token หมดอายุ/ถูกยกเลิก | httpClient swallow + Modal → logout |
+| `AUTH_LOGIN_FAILED` | 401 | ชื่อผู้ใช้/รหัสผ่านผิด | error propagate → login form แสดง msg |
+
+> **สำคัญ:** httpClient interceptor เช็ค `errorCode === 'AUTH_TOKEN_INVALID'` เท่านั้นถึงจะ dispatch event + swallow error อื่นๆ ปล่อยไปปกติ

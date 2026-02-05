@@ -39,5 +39,15 @@
 | 422 | Unprocessable Entity | Business logic validation fail |
 | 500 | Internal Server Error | Server error |
 
+## 401 Handling Rules
+
+| errorCode | Meaning | Frontend Behavior |
+|-----------|---------|-------------------|
+| `AUTH_TOKEN_INVALID` | Token หมดอายุ/ถูกยกเลิก | httpClient swallow error + dispatch `qerp:session-expired` → Modal → logout + redirect /login |
+| `AUTH_LOGIN_FAILED` | Login ผิดพลาด | ปล่อย error propagate → login form แสดง msg จาก backend |
+| อื่นๆ (401) | | ปล่อย error propagate → catch blocks จัดการ |
+
+**extractApiError สำหรับ 401:** ใช้ `apiMsg || SESSION_EXPIRED` (ไม่ hardcode — backend ส่ง msg ต่างกัน)
+
 ## Scope
 ทำทีละ module — เริ่มจาก Portal → เทียบกับ Backend → แก้ไข → scan module ถัดไป

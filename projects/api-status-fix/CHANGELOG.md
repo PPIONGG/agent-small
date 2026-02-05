@@ -143,3 +143,36 @@
 **ไม่แก้ไข (already handled properly):**
 - `useSOListData.ts` cancelSO/handleApprovalAction — ใช้ ErrorModal แสดง error อยู่แล้ว
 - `useSOFormSubmit.ts` — already uses extractApiError / ErrorModal
+
+---
+
+#### Session Expired Modal — 401 AUTH_TOKEN_INVALID Handling
+
+**ปัญหาเดิม:** เมื่อ token หมดอายุ (401) → auto-logout เงียบๆ redirect ไป /login โดยไม่บอก user ว่าเกิดอะไรขึ้น + หน้า login ก็ได้รับ 401 (AUTH_LOGIN_FAILED) แต่ถูก swallow ไปด้วย
+
+**ไฟล์ที่แก้ไข (6 ไฟล์):**
+
+1. **`shared/src/services/httpClient.ts`**
+   - interceptor: เช็ค `errorCode === 'AUTH_TOKEN_INVALID'` เท่านั้น → dispatch `qerp:session-expired` event + swallow error
+   - `AUTH_LOGIN_FAILED` หรือ 401 อื่นๆ → ปล่อย error propagate ปกติ
+
+2. **`shared/src/errors/apiErrorUtils.ts`**
+   - 401: เปลี่ยนจาก hardcode `SESSION_EXPIRED` → `apiMsg || SESSION_EXPIRED` (ใช้ msg จาก backend)
+
+3. **`portal/src/contexts/authTypes.ts`**
+   - เพิ่ม `sessionExpired: boolean`, `sessionExpiredMessage: string | null` ใน AuthState
+   - เพิ่ม `confirmSessionExpired: () => void` ใน AuthContextType
+
+4. **`portal/src/contexts/AuthContext.tsx`**
+   - ลบ `httpClient.setOnUnauthorized()` callback → เปลี่ยนเป็นฟัง `qerp:session-expired` event
+   - เพิ่ม `useRef` กัน duplicate (หลาย API อาจ 401 พร้อมกัน)
+   - เพิ่ม `confirmSessionExpired()` → logout + reset modal state
+   - ลบ auto-logout ใน `updateCompany` catch (interceptor จัดการแทน)
+
+5. **`portal/src/components/SessionExpiredModal.tsx`** (ไฟล์ใหม่)
+   - Ant Design Modal: `closable=false`, `maskClosable=false`, `keyboard=false`
+   - แสดง `sessionExpiredMessage` จาก backend
+   - ปุ่มเดียว "เข้าสู่ระบบใหม่" → `confirmSessionExpired()` + `navigate('/login')`
+
+6. **`portal/src/App.tsx`**
+   - วาง `<SessionExpiredModal />` ใน Router (ก่อน Routes)

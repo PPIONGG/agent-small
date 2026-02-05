@@ -72,6 +72,22 @@
 
 ---
 
+---
+
+- [x] Session Expired Modal — แสดง Modal เมื่อ token หมดอายุ (AUTH_TOKEN_INVALID)
+  - `shared/src/services/httpClient.ts` — เช็ค errorCode === 'AUTH_TOKEN_INVALID' → dispatch event + swallow error
+  - `shared/src/errors/apiErrorUtils.ts` — 401: ใช้ `apiMsg || SESSION_EXPIRED` (ไม่ hardcode)
+  - `portal/src/contexts/authTypes.ts` — เพิ่ม sessionExpired, sessionExpiredMessage, confirmSessionExpired
+  - `portal/src/contexts/AuthContext.tsx` — ฟัง `qerp:session-expired` event + confirmSessionExpired()
+  - `portal/src/components/SessionExpiredModal.tsx` — **ไฟล์ใหม่** Modal บังคับ + ปุ่ม "เข้าสู่ระบบใหม่"
+  - `portal/src/App.tsx` — วาง SessionExpiredModal ใน Router
+
+  **Logic:**
+  - `AUTH_TOKEN_INVALID` → dispatch event + swallow error → Modal แสดง → user กด confirm → logout + redirect /login
+  - `AUTH_LOGIN_FAILED` (หรือ 401 อื่นๆ) → ปล่อย error propagate ปกติ → login form จัดการเอง
+
+---
+
 ## In Progress
 
 (ยังไม่มี)

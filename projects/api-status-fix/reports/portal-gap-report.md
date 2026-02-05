@@ -137,11 +137,11 @@ authService.getMenuJWT() → throws
 
 ## Shared HttpClient — ปัญหาร่วม
 
-| ปัญหา | ผลกระทบ |
-|--------|---------|
-| Interceptor แค่ `console.error` | ทุก module ต้อง handle error เอง |
-| ไม่มี `onUnauthorized` callback | ไม่มี global 401 auto-logout |
-| ไม่มี error normalization | แต่ละที่จัดการ AxiosError ต่างกัน |
+| ปัญหา | ผลกระทบ | สถานะ |
+|--------|---------|-------|
+| Interceptor แค่ `console.error` | ทุก module ต้อง handle error เอง | ✅ เพิ่ม 401 handling (AUTH_TOKEN_INVALID → event + swallow) |
+| ไม่มี `onUnauthorized` callback | ไม่มี global 401 auto-logout | ✅ ใช้ `qerp:session-expired` event + SessionExpiredModal |
+| ไม่มี error normalization | แต่ละที่จัดการ AxiosError ต่างกัน | ✅ ใช้ `extractApiError()` จาก `@qerp/shared/errors` |
 
 ---
 
@@ -160,13 +160,13 @@ authService.getMenuJWT() → throws
 
 ## สรุปปัญหาทั้งหมด (เรียงตามความสำคัญ)
 
-| # | ปัญหา | ระดับ | ฝั่ง | แนวทางแก้ |
-|---|--------|-------|------|-----------|
-| 1 | HTTP 400 "ไม่พบผู้ใช้งาน" แสดงเป็น "เกิดข้อผิดพลาดในการเชื่อมต่อ" | สูง | Frontend | authHelpers: ดึง error.response.data.msg จาก AxiosError |
-| 2 | 401 token expired ไม่ auto-logout | สูง | Frontend | shared httpClient: เพิ่ม onUnauthorized callback |
-| 3 | Backend ส่ง HTTP 400 + body code:404 | สูง | Backend | ส่ง HTTP status ตรง หรือ ส่ง 200 + code |
-| 4 | LoginController ไม่มี try/catch | สูง | Backend | เพิ่ม try/catch + return 500 |
-| 5 | JWTController ไม่มี try/catch | สูง | Backend | เพิ่ม try/catch + return 500 |
-| 6 | 403 ไม่แยกจาก error อื่น | กลาง | Frontend | authHelpers: เช็ค status 403 |
-| 7 | ไม่ใช้ error constants ที่มีอยู่แล้ว | ต่ำ | Frontend | ใช้ SESSION_EXPIRED, INVALID_CREDENTIALS |
-| 8 | httpClient interceptor แค่ log | กลาง | Shared | เพิ่ม global error handling |
+| # | ปัญหา | ระดับ | ฝั่ง | แนวทางแก้ | สถานะ |
+|---|--------|-------|------|-----------|-------|
+| 1 | HTTP 400 "ไม่พบผู้ใช้งาน" แสดงเป็น "เกิดข้อผิดพลาดในการเชื่อมต่อ" | สูง | Frontend | authHelpers: ดึง error.response.data.msg จาก AxiosError | ✅ |
+| 2 | 401 token expired ไม่ auto-logout | สูง | Frontend | httpClient: เช็ค errorCode + SessionExpiredModal | ✅ |
+| 3 | Backend ส่ง HTTP 400 + body code:404 | สูง | Backend | ส่ง HTTP status ตรง หรือ ส่ง 200 + code | ⏳ |
+| 4 | LoginController ไม่มี try/catch | สูง | Backend | เพิ่ม try/catch + return 500 | ⏳ |
+| 5 | JWTController ไม่มี try/catch | สูง | Backend | เพิ่ม try/catch + return 500 | ⏳ |
+| 6 | 403 ไม่แยกจาก error อื่น | กลาง | Frontend | authHelpers: เช็ค status 403 | ✅ |
+| 7 | ไม่ใช้ error constants ที่มีอยู่แล้ว | ต่ำ | Frontend | ใช้ SESSION_EXPIRED, INVALID_CREDENTIALS | ✅ |
+| 8 | httpClient interceptor แค่ log | กลาง | Shared | เพิ่ม global error handling + AUTH_TOKEN_INVALID check | ✅ |
