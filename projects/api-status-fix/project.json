@@ -1,0 +1,49 @@
+{
+  "name": "api-status-fix",
+  "description": "แก้ไข API error status codes ให้ถูกต้องตามมาตรฐาน HTTP - workspace ทำงานร่วมกัน Frontend + Backend",
+  "type": "workspace",
+  "paths": {
+    "frontend": "c:\\Users\\Kongsit\\Desktop\\QReact",
+    "backend": "c:\\GitHub\\QERPC-API"
+  },
+  "tech": {
+    "frontend": "react-typescript-vite-module-federation",
+    "backend": "csharp-dotnet"
+  },
+  "structure": {
+    "frontend": {
+      "shared-lib": "shared/src/services/httpClient.ts",
+      "portal-auth": "portal/src/services/authService.ts",
+      "modules": [
+        "portal",
+        "Q-ERPc/purchase/purchase-order",
+        "Q-ERPc/sales/sales-order",
+        "Q-ERPc/sales/sales-visitor",
+        "Q-ERPc/analytics/sales-analytics"
+      ]
+    },
+    "backend": {
+      "controllers": "QercAPI/Controllers/"
+    }
+  },
+  "commands": {
+    "frontend": {
+      "dev": "npm run dev",
+      "build": "npm run build"
+    },
+    "backend": {
+      "dev": "dotnet run",
+      "build": "dotnet build"
+    }
+  },
+  "scan": {
+    "frontend": {
+      "include": ["shared/src/", "portal/src/", "Q-ERPc/"],
+      "exclude": ["node_modules/", "dist/", ".vite/"]
+    },
+    "backend": {
+      "include": ["QercAPI/Controllers/", "QercAPI/Services/", "QercAPI/Models/"],
+      "exclude": ["bin/", "obj/"]
+    }
+  }
+}
