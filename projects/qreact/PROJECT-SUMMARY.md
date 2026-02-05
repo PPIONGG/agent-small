@@ -677,53 +677,126 @@ src/
 
 ---
 
-## API Endpoints (สรุปทุก module)
+## API Endpoints (สรุปทุก module — 53 endpoints)
 
-### Auth (Portal)
+> Scanned จาก codebase จริง (2026-02-05)
 
-| Method | Endpoint | หน้าที่ |
-|--------|----------|--------|
-| POST | /api/auth/login | Login (ได้ Tier 1 JWT) |
-| POST | /api/auth/menu-permission | ขอ menu permission (Tier 2 JWT) |
-| GET | /api/auth/permission | ดึง permission ทั้งหมด |
+### Auth & Permission (Portal)
 
-### Purchase Order
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| POST | `/api/Login/LoginJWT` | authService.ts | Login (ได้ Tier 1 JWT + menu items) |
+| POST | `/api/JWT/QERPcMenuJWT` | authService.ts | ขอ menu permission สำหรับ company ที่เลือก (Tier 2 JWT) |
+| GET | `/api/JWT/QERPcMenuActionJWT/{moduleCode}` | permissionService.ts | ขอ action-level permission (Tier 3 — insert/edit/print) |
 
-| Method | Endpoint | หน้าที่ |
-|--------|----------|--------|
-| GET | /api/po/list | รายการ PO |
-| GET | /api/po/:id | PO detail |
-| POST | /api/po | สร้าง PO ใหม่ |
-| PUT | /api/po/:id | แก้ไข PO |
-| DELETE | /api/po/:id | ลบ PO |
-| POST | /api/po/:id/approve | อนุมัติ PO |
-| POST | /api/po/:id/reject | ปฏิเสธ PO |
-| GET | /api/po/:id/print | ข้อมูลสำหรับพิมพ์ |
-| GET | /api/vendors | รายการ vendors |
-| GET | /api/products | รายการสินค้า |
+> Module codes ที่ใช้: `PO`, `SO`, `ANALYSIS_SO`
 
-### Sales Order
+### Purchase Order (24 endpoints)
 
-| Method | Endpoint | หน้าที่ |
-|--------|----------|--------|
-| GET | /api/so/list | รายการ SO |
-| GET | /api/so/:id | SO detail |
-| POST | /api/so | สร้าง SO ใหม่ |
-| PUT | /api/so/:id | แก้ไข SO |
-| DELETE | /api/so/:id | ลบ SO |
-| POST | /api/so/:id/approve | อนุมัติ SO |
-| POST | /api/so/:id/reject | ปฏิเสธ SO |
-| GET | /api/so/:id/print | ข้อมูลสำหรับพิมพ์ |
-| GET | /api/customers | รายการลูกค้า |
+#### Core PO Operations
 
-### Sales Analytics
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| GET | `/api/PO/POHeaderList` | poService.ts | รายการ PO (paginated, search, filter by DocumentTypeCode) |
+| POST | `/api/PO/POInsert` | poService.ts | สร้าง PO ใหม่ |
+| GET | `/api/PO/POOrder` | poService.ts | ดึง PO detail สำหรับแก้ไข |
+| POST | `/api/PO/POUpdate` | poService.ts | อัพเดท PO |
+| POST | `/api/PO/POCancel` | poService.ts | ยกเลิก PO |
+| POST | `/api/PO/CheckStatus` | poService.ts | ตรวจ status ก่อน edit/cancel |
 
-| Method | Endpoint | หน้าที่ |
-|--------|----------|--------|
-| GET | /api/sales-analytics/dashboard | ข้อมูล dashboard |
-| GET | /api/sales-analytics/summary | สรุปยอดขาย |
-| GET | /api/sales-analytics/chart | ข้อมูลกราฟ |
-| GET | /api/sales-analytics/search | ค้นหาข้อมูล |
+#### PO Master Data
+
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| GET | `/api/Supplier/SupplierList` | supplierService.ts | รายการ suppliers (paginated, search) |
+| GET | `/api/Supplier/GetSupplier` | supplierService.ts | รายละเอียด supplier ตาม code |
+| GET | `/api/Item/ItemList` | itemService.ts | รายการสินค้า (paginated, search) |
+| GET | `/api/ItemUnit/UnitConversionList` | itemService.ts | แปลงหน่วยสินค้า |
+| GET | `/api/PaymentTerm/PaymentTermList` | paymentTermService.ts | เงื่อนไขการชำระเงิน |
+| GET | `/api/PaymentTerm/CalculatePayment` | paymentTermService.ts | คำนวณวันครบกำหนดชำระ |
+| GET | `/api/Currency/GetCurrency` | currencyService.ts | รายการสกุลเงิน |
+| GET | `/api/Currency/GetExchangeRatePurchase` | currencyService.ts | อัตราแลกเปลี่ยน (ซื้อ) |
+| GET | `/api/Warehouse/GetListWarehouse` | warehouseService.ts | รายการคลังสินค้า |
+| GET | `/api/Company/ComapyInfo` | companyService.ts | ข้อมูลบริษัท + noDigit settings |
+| GET | `/api/Document/DocumentTypeRightList` | documentService.ts | ประเภทเอกสารที่มีสิทธิ์ |
+| GET | `/api/Serie/SeriesAndGroupDoc` | serieService.ts | เลขที่เอกสาร running number + series |
+
+#### PO Approval, Calculation & Report
+
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| POST | `/api/Calculate/CalculateVatAmount` | calculateService.ts | คำนวณ VAT |
+| POST | `/api/Approved/Approve` | approvalService.ts | อนุมัติ/ปฏิเสธ |
+| GET | `/api/Approved/Config/PO` | approvedConfigService.ts | ตั้งค่าระดับอนุมัติ PO |
+| GET | `/api/Report/PrintFormList` | printFormService.ts | รายการฟอร์มพิมพ์ตามประเภทเอกสาร |
+| POST | `/api/Report/POReportPDF` | printFormService.ts | สร้าง PO report เป็น PDF (Blob) |
+| GET | `/api/JWT/QERPcMenuActionJWT/PO` | permissionService.ts | Permission ระดับ action (insert/edit/print) |
+
+### Sales Order (28 endpoints)
+
+#### Core SO Operations
+
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| GET | `/api/SO/SOHeaderList` | soService.ts | รายการ SO (paginated, search, filter) |
+| POST | `/api/SO/SOInsert` | soService.ts | สร้าง SO ใหม่ |
+| GET | `/api/SO/SOOrder` | soService.ts | ดึง SO detail สำหรับแก้ไข |
+| POST | `/api/SO/SOUpdate` | soService.ts | อัพเดท SO |
+| POST | `/api/SO/SOCancel` | soService.ts | ยกเลิก SO |
+| POST | `/api/SO/CheckStatus` | soService.ts | ตรวจ status ก่อน edit/cancel |
+
+#### SO Master Data (เฉพาะ SO — นอกจากนี้ใช้ร่วมกับ PO)
+
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| GET | `/api/Customer/CustomerList` | customerService.ts | รายการลูกค้า (paginated, search) |
+| GET | `/api/Customer/GetCustomer` | customerService.ts | รายละเอียดลูกค้าตาม code |
+| GET | `/api/Salesman/SalesmanList` | salesmanService.ts | รายการพนักงานขาย (paginated, search) |
+| GET | `/api/Salesman/GetSalesman` | salesmanService.ts | รายละเอียดพนักงานขาย |
+| GET | `/api/Transportation/TransportationList` | transportationService.ts | รายการวิธีขนส่ง (paginated) |
+| GET | `/api/Transportation/GetTransportation` | transportationService.ts | รายละเอียดขนส่งตาม code |
+
+#### SO Shared Master Data (ใช้ร่วมกับ PO)
+
+> Item, ItemUnit, PaymentTerm, Currency, Warehouse, Company, Document, Serie — endpoint เดียวกับ PO
+
+#### SO Approval, Calculation & Report
+
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| POST | `/api/Calculate/CalculateVatAmount` | calculateService.ts | คำนวณ VAT |
+| POST | `/api/Approved/Approve` | approvalService.ts | อนุมัติ/ปฏิเสธ |
+| GET | `/api/Approved/Config/SO` | approvedConfigService.ts | ตั้งค่าระดับอนุมัติ SO |
+| GET | `/api/Report/PrintFormList` | printFormService.ts | รายการฟอร์มพิมพ์ |
+| POST | `/api/Report/SOReportPDF` | printFormService.ts | สร้าง SO report เป็น PDF (Blob) |
+| GET | `/api/JWT/QERPcMenuActionJWT/SO` | permissionService.ts | Permission ระดับ action |
+
+### Sales Analytics (4 endpoints)
+
+| Method | Endpoint | Service | หน้าที่ |
+|--------|----------|---------|--------|
+| GET | `/api/Company/ComapyGoLive` | dashboardService.ts | วันที่บริษัท Go-Live (ใช้คำนวณ year range) |
+| GET | `/api/PivotSO/SOSummary` | dashboardService.ts | สรุปยอดขายตามปี |
+| GET | `/api/PivotSO/SONotComplete` | dashboardService.ts | SO ที่ยังไม่เสร็จ (paginated) |
+| GET | `/api/JWT/QERPcMenuActionJWT/ANALYSIS_SO` | permissionService.ts | Permission ระดับ action |
+
+### Sales Visitor — ยังไม่มี API (scaffold, ใช้ mock data)
+
+### Business Data Monitoring — ยังไม่มี API (stub pages)
+
+### API Response Convention
+
+```
+code: 0 = success → ใช้ response.result
+code: non-0 = error → แสดง response.msg
+```
+
+### Blob Endpoints (PDF Download)
+
+| Endpoint | Module |
+|----------|--------|
+| `/api/Report/POReportPDF` | PO |
+| `/api/Report/SOReportPDF` | SO |
 
 ---
 
@@ -786,25 +859,31 @@ Portal (Host)
   └─ <QaiPageWrapper {...commonProps} />
 ```
 
-### Auth Flow (2-Tier JWT)
+### Auth Flow (3-Tier JWT)
 
 ```
 User Login
   │
   ▼
-POST /api/auth/login
+POST /api/Login/LoginJWT
   │
   ▼
 LoginJWT (Tier 1)  ──→  ได้ menu items (เห็นเมนูอะไรบ้าง)
   │
   ▼
-POST /api/auth/menu-permission (companyCode)
+POST /api/JWT/QERPcMenuJWT (companyCode)
   │
   ▼
 QERPcMenuJWT (Tier 2)  ──→  ได้ route-level permission
   │
   ▼
 RouteGuard  ──→  ตรวจ permission ก่อนให้เข้า route
+  │
+  ▼
+GET /api/JWT/QERPcMenuActionJWT/{MODULE}
+  │
+  ▼
+ActionJWT (Tier 3)  ──→  ได้ action permission (insert/edit/print)
 ```
 
 ---
