@@ -24,11 +24,26 @@
 { Status: bool?, Message: string?, MessageE: string?, data: dynamic? }
 ```
 
-Legacy controllers: Dashboard, CustomerCategory, FGStock, Pallet, Serie*, TeamDelivery, TransactionCategory, TransactionContactOfMaster, Vehicle, WO
+Legacy controllers: Dashboard, CustomerCategory, FGStock, Pallet, Serie*, TeamDelivery, TransactionCategory, TransactionContactOfMaster, Vehicle, WO, **SalesVisitor**
 
 > *Serie controller มี endpoint `SeriesAndGroupDoc` ที่ใช้ ReturnMessageData (Pattern 1) ซึ่ง frontend เรียก
 
-## 33 APIs ที่ Frontend เรียก
+## Sales Visitor APIs (Legacy Pattern — ยังไม่ได้เรียกจาก Frontend)
+
+| # | Endpoint | Return Type | Notes |
+|---|----------|-------------|-------|
+| - | GET /api/SalesVisitor/Customer | ReturnAPI | Legacy |
+| - | GET /api/SalesVisitor/CustomerDetails/{id}/{type} | ReturnAPI | Legacy |
+| - | GET /api/SalesVisitor/ListVisited/{salescode} | ReturnAPI | Legacy |
+| - | GET /api/SalesVisitor/VisitDetails/{id} | ReturnAPI | Legacy |
+| - | POST /api/SalesVisitor/Create | ReturnAPI | Legacy |
+| - | POST /api/SalesVisitor/Update | ReturnAPI | Legacy |
+| - | POST /api/SalesVisitor/CancelOrRestore | ReturnAPI | Legacy |
+| - | POST /api/SalesVisitor/ApprovePettyCash | ReturnAPI | Legacy |
+
+> **หมายเหตุ:** Frontend Sales Visitor module ยังใช้ mock data อยู่ ยังไม่เรียก API จริง แต่ local `types/api.ts` กำหนดเป็น Pattern 1 ซึ่งจะ **ไม่ match** กับ backend เมื่อเชื่อมต่อจริง
+
+## 36 APIs ที่ Frontend เรียก (Pattern 1)
 
 ### Shared (Portal + SA + ทุก module)
 
@@ -76,7 +91,10 @@ Legacy controllers: Dashboard, CustomerCategory, FGStock, Pallet, Serie*, TeamDe
 | 30 | GET /api/Customer/CustomerList | ReturnPaginationData | SO form |
 | 31 | GET /api/Customer/GetCustomer | ReturnMessageData | SO form |
 | 32 | GET /api/Salesman/SalesmanList | ReturnPaginationData | SO form |
-| 33 | GET /api/PaymentTerm/CalculatePayment | ReturnMessageData | SO form |
+| 33 | GET /api/Salesman/GetSalesman | ReturnMessageData | SO form |
+| 34 | GET /api/PaymentTerm/CalculatePayment | ReturnMessageData | SO form |
+| 35 | GET /api/Transportation/TransportationList | ReturnPaginationData | SO form |
+| 36 | GET /api/Transportation/GetTransportation | ReturnMessageData | SO form |
 
 ## Frontend Type Mapping
 
@@ -89,11 +107,24 @@ Legacy controllers: Dashboard, CustomerCategory, FGStock, Pallet, Serie*, TeamDe
 
 ## Fixed Mismatch (2026-02-05)
 
-Approved endpoints (#14, #15) — backend ส่ง `ReturnMessageData` (code/msg/result) แต่ frontend PO+SO module ใช้ `ApiResponseAlt` (status/message/data)
+### Fix 1: Approved endpoints (#14, #15)
+backend ส่ง `ReturnMessageData` (code/msg/result) แต่ frontend PO+SO module ใช้ `ApiResponseAlt` (status/message/data)
 
 **ยืนยันจาก actual API response:** backend ส่ง `{ code: 0, msg, errorCode, result }` (Pattern 1)
 
 **แก้ไขแล้ว:** เปลี่ยน frontend ทั้ง PO + SO ให้ใช้ `ApiResponse<T>` + เช็ค `response.code === 0` + ใช้ `response.result`/`response.msg`
+
+## Fixed Mismatch (2026-02-06)
+
+### Fix 2: Salesman + Transportation Info endpoints (#33, #36)
+backend ส่ง `ReturnMessageData` (code/msg/result) แต่ frontend SO module types ใช้ `status/message/data` pattern
+
+**ไฟล์ที่แก้ไข (3 ไฟล์):**
+1. **`Q-ERPc/sales/sales-order/src/types/salesman.ts`** — `SalesmanInfoResponse` เปลี่ยนจาก `status/message/data` → `code/msg/result`
+2. **`Q-ERPc/sales/sales-order/src/types/transportation.ts`** — `TransportationInfoResponse` เปลี่ยนจาก `status/message/data` → `code/msg/result`
+3. **`Q-ERPc/sales/sales-order/src/pages/SOForm.tsx`** — 4 จุดที่เช็ค `response.status && response.data` → `response.code === 0 && response.result`
+
+**ผลกระทบก่อนแก้:** ข้อมูล Salesman และ Transportation ไม่ถูก populate ลง form เพราะเช็ค `response.status` (undefined) แทน `response.code === 0`
 
 ## GlobalExceptionMiddleware
 

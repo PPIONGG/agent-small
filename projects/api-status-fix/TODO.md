@@ -96,9 +96,37 @@
 
 ---
 
+- [x] Fix: Salesman + Transportation API Type Mismatch — SO ใช้ `status/message/data` แต่ backend ส่ง Pattern 1
+  - **BUG:** ข้อมูล Salesman และ Transportation ไม่ถูก populate ลง form เพราะเช็ค `response.status` (undefined)
+  - `types/salesman.ts` — `SalesmanInfoResponse` เปลี่ยนจาก `status/message/data` → `code/msg/result`
+  - `types/transportation.ts` — `TransportationInfoResponse` เปลี่ยนจาก `status/message/data` → `code/msg/result`
+  - `pages/SOForm.tsx` — 4 จุดที่เช็ค `response.status && response.data` → `response.code === 0 && response.result`
+
+---
+
 ## In Progress
 
 (ยังไม่มี)
+
+---
+
+## Verification Complete (2026-02-06)
+
+ตรวจสอบ API response types ทั้งหมดเทียบกับ backend controllers แล้ว:
+
+| Module | APIs | Pass | Backend Files Verified |
+|--------|------|------|------------------------|
+| Portal | 2 | 2/2 ✅ | LoginController.cs, JWTController.cs |
+| Sales Analytics | 4 | 4/4 ✅ | CompanyController.cs, PivotSOController.cs, JWTController.cs |
+| Purchase Order | 14 | 14/14 ✅ | POController.cs, SupplierController.cs, etc. |
+| Sales Order | 15 | 15/15 ✅ | SOController.cs, CustomerController.cs, SalesmanController.cs, TransportationController.cs, etc. |
+| **Total** | **35** | **35/35** ✅ | |
+
+**Verified patterns:**
+- `response.code === 0` (success check) ✅
+- `response.result` (data) ✅
+- `response.msg` (error message) ✅
+- `extractApiError()` + `message.error()` (error handling) ✅
 
 ---
 

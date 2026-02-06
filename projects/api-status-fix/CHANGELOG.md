@@ -2,6 +2,52 @@
 
 ## [Unreleased]
 
+### 2026-02-06
+
+#### Full API Response Type Verification — All Modules
+
+ตรวจสอบ API response types ทั้งหมด 35 endpoints เทียบกับ backend controllers:
+
+| Module | APIs | Result |
+|--------|------|--------|
+| Portal | 2 | ✅ PASS |
+| Sales Analytics | 4 | ✅ PASS |
+| Purchase Order | 14 | ✅ PASS |
+| Sales Order | 15 | ✅ PASS |
+
+**Backend controllers verified:**
+- `LoginController.cs` — LoginJWT
+- `JWTController.cs` — QERPcMenuJWT, QERPcMenuActionJWT
+- `CompanyController.cs` — ComapyGoLive
+- `PivotSOController.cs` — SOSummary, SONotComplete
+- `POController.cs`, `SOController.cs` — CRUD operations
+- `SupplierController.cs`, `CustomerController.cs` — Master data
+- `SalesmanController.cs`, `TransportationController.cs` — SO master data
+
+**สรุป:** ทุก module ใช้ Pattern 1 (code/msg/result) ถูกต้องตรงกับ backend ทั้งหมด
+
+---
+
+#### Salesman + Transportation API Type Mismatch Fix — SO
+
+**ปัญหาเดิม:** Salesman (#33 GetSalesman) และ Transportation (#36 GetTransportation) backend ส่ง `ReturnMessageData` (code/msg/result) แต่ frontend SO module ใช้ legacy pattern (status/message/data) → ข้อมูลไม่ถูก populate ลง form
+
+**ตรวจพบจาก:** deep scan ตรวจสอบ response types ทั้งหมดใน SO module
+
+**ไฟล์ที่แก้ไข (3 ไฟล์):**
+
+1. **`Q-ERPc/sales/sales-order/src/types/salesman.ts`**
+   - `SalesmanInfoResponse` เปลี่ยนจาก `status/message/data` → `code/msg/result`
+
+2. **`Q-ERPc/sales/sales-order/src/types/transportation.ts`**
+   - `TransportationInfoResponse` เปลี่ยนจาก `status/message/data` → `code/msg/result`
+
+3. **`Q-ERPc/sales/sales-order/src/pages/SOForm.tsx`**
+   - 4 จุดที่เช็ค `response.status && response.data` → `response.code === 0 && response.result`
+   - 3 จุดที่ใช้ `response.message` → `response.msg`
+
+---
+
 ### 2026-02-05
 
 #### Approved API Type Mismatch Fix — PO + SO
